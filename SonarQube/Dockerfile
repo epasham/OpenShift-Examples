@@ -26,7 +26,7 @@ LABEL name="sonarqube" \
       build-date="2019-03-07" \
       release="1"
 
-RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk unzip hostname && \
+RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk unzip hostname \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
