@@ -1,7 +1,9 @@
 # docker build  -t ekambaram/ocp-sonarqube -f Dockerfile .
 
+# Base Image Name
 FROM docker.io/centos:7
 
+# Define Environment Variables
 ENV SONAR_VERSION=6.7.4 \
     SONARQUBE_HOME=/opt/sonarqube \
     # Database configuration
@@ -15,8 +17,8 @@ ENV SONAR_VERSION=6.7.4 \
 # Http port
 EXPOSE 9000
 
+# Define Image Labels
 LABEL name="sonarqube" \
-      vendor="SonarSource" \
       version="${SONAR_VERSION}-centos7" \
       io.k8s.description="Provide a SonarQube image to run on Red Hat OpenShift" \
       io.k8s.display-name="SonarQube" \
@@ -26,6 +28,7 @@ LABEL name="sonarqube" \
       build-date="2019-03-07" \
       release="1"
 
+# Install Binaries
 RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk unzip hostname \
     && yum clean all \
     && rm -rf /var/cache/yum \
@@ -36,8 +39,11 @@ RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk unzip hostname \
     && mv sonarqube-$SONAR_VERSION sonarqube \
     && rm /tmp/sonarqube.zip*
 
+# Add startup script
 COPY run.sh ${SONARQUBE_HOME}/bin/
 ENV PATH=$PATH:${SONARQUBE_HOME}/bin
+
+# Create sonarqube user used to start sonar service
 RUN useradd -l -u 10001 -r -g 0 -m -s /sbin/nologin \
         -c "sonarqube application user" sonarqube && \
     chown -R 10001:0 ${SONARQUBE_HOME} && \
