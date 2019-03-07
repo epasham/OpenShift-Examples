@@ -1,3 +1,5 @@
+# docker build  -t ekambaram/ocp-sonarqube -f Dockerfile .
+
 FROM docker.io/centos:7
 
 ENV SONAR_VERSION=6.7.4 \
