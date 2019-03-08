@@ -22,22 +22,28 @@ RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk-devel.x86_64 maven
  && yum clean all
 
 ENV ARTIFACTORY_VERSION 5.3.1 \
- ARTIFACTORY_HOME /opt/artifactory \
- ARTIFACTORY_URL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-${ARTIFACTORY_VERSION}.zip
+ ARTIFACTORY_HOME /opt/artifactory
 
-RUN groupadd -r artifactory -g 1001 \
- && useradd -u 1001 -r -g artifactory -d /opt/artifactory -s /sbin/nologin -c "artifactory user" artifactory
 
 # Install the binaries
 RUN cd /tmp \
-  && curl -o artifactory.zip --fail --silent --location  --retry 3 ${ARTIFACTORY_URL} \
+  && curl -o artifactory.zip --fail --silent --location  --retry 3 https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-${ARTIFACTORY_VERSION}.zip \
   && cd /opt \ 
   && unzip /tmp/artifactory.zip \
   && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
   && rm /tmp/artifactory.zip
 
-RUN chown -R artifactory:0 ${ARTIFACTORY_HOME}
-RUN chmod 774 -R ${ARTIFACTORY_HOME}
+
+#RUN groupadd -r artifactory -g 1001 \
+# && useradd -u 1001 -r -g artifactory -d /opt/artifactory -s /sbin/nologin -c "artifactory user" artifactory
+#RUN chown -R artifactory:0 ${ARTIFACTORY_HOME}
+#RUN chmod 774 -R ${ARTIFACTORY_HOME}
+
+RUN useradd -l -u 10001 -r -g 0 -m -s /sbin/nologin \
+ -c "artifactory user" artifactory \
+ && chown -R 10001:0 ${ARTIFACTORY_HOME} \
+ && chmod -R g=u ${ARTIFACTORY_HOME} \
+ && chmod ug+x ${ARTIFACTORY_HOME}/bin/artifactory.sh
 
 USER 1001
 
