@@ -29,8 +29,7 @@ RUN groupadd -r artifactory -g 1001 \
  && useradd -u 1001 -r -g artifactory -d /opt/artifactory -s /sbin/nologin -c "artifactory user" artifactory
 
 # Install the binaries
-RUN mkdir -p ${ARTIFACTORY_HOME} \
-  && curl -o /tmp/artifactory.zip  --fail --silent --location --retry 3 ${ARTIFACTORY_URL} \
+RUN curl -o /tmp/artifactory.zip  --fail --silent --location --retry 3 ${ARTIFACTORY_URL} \
   && cd /opt \ 
   && unzip /tmp/artifactory.zip \
   && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
