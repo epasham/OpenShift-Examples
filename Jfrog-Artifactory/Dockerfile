@@ -23,7 +23,7 @@ RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk-devel.x86_64 maven
 
 ENV ARTIFACTORY_VERSION 5.3.1 \
  ARTIFACTORY_HOME /opt/artifactory \
- ARTIFACTORY_URL=https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-${ARTIFACTORY_VERSION}.zip
+ ARTIFACTORY_URL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-${ARTIFACTORY_VERSION}.zip
 
 RUN groupadd -r artifactory -g 1001 \
  && useradd -u 1001 -r -g artifactory -d /opt/artifactory -s /sbin/nologin -c "artifactory user" artifactory
