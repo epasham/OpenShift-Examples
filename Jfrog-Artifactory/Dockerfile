@@ -30,7 +30,7 @@ RUN groupadd -r artifactory -g 1001 \
 
 # Install the binaries
 RUN cd /tmp \
-  &&  curl -o artifactory.zip --fail --silent --location  --retry 3 ${ARTIFACTORY_URL} \
+  &&  curl -o artifactory.zip --fail --silent --location ${ARTIFACTORY_URL} \
   && cd /opt \ 
   && unzip /tmp/artifactory.zip \
   && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
