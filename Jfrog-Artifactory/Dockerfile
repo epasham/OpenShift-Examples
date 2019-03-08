@@ -27,7 +27,7 @@ RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk-devel.x86_64 maven
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
-    && curl -o artifactory.zip -FSL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
+    && curl -o artifactory.zip -fSL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
     && cd /opt \ 
     && unzip /tmp/artifactory.zip \
     && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
