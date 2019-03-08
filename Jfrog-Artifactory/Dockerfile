@@ -24,16 +24,13 @@ ENV ARTIFACTORY_VERSION 5.3.1 \
 # Install binaries
 RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk-devel.x86_64 maven lsof curl tar unzip \
  && yum clean all \
- && rm -rf /var/cache/yum 
-
-
-# Install the binaries
-RUN cd /tmp \
-  && curl -o artifactory.zip --fail --silent --location  --retry 3 https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
-  && cd /opt \ 
-  && unzip /tmp/artifactory.zip \
-  && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
-  && rm /tmp/artifactory.zip
+ && rm -rf /var/cache/yum \
+ && cd /tmp \
+ && curl -o artifactory.zip -fSL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
+ && cd /opt \ 
+ && unzip /tmp/artifactory.zip \
+ && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
+ && rm /tmp/artifactory.zip
 
 
 #RUN groupadd -r artifactory -g 1001 \
