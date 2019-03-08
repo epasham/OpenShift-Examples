@@ -1,4 +1,4 @@
-# docker build  -t ekambaram/ocp-artifactory -f Dockerfile .
+# docker build  -t ekambaram/ocp-artifactory .
 
 # Base Image Name
 FROM docker.io/centos:7
@@ -18,15 +18,16 @@ LABEL io.openshift.build.commit.author="Ekambaram Pasham <ekambaram.pasham@gmail
     io.openshift.tags="jfrog,artifactory" 
 
 # Environment variables
-ENV ARTIFACTORY_VERSION 5.3.1 \
-    ARTIFACTORY_HOME /opt/artifactory
+ENV ARTIFACTORY_VERSION=5.3.1 \
+    ARTIFACTORY_HOME=/opt/artifactory
+
 
 # Install binaries
 RUN yum -y install --setopt=tsflags=nodocs java-1.8.0-openjdk-devel.x86_64 maven lsof curl tar unzip \
     && yum clean all \
     && rm -rf /var/cache/yum \
     && cd /tmp \
-    && curl -o artifactory.zip https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
+    && curl -o artifactory.zip -FSL https://bintray.com/artifact/download/jfrog/artifactory/jfrog-artifactory-oss-$ARTIFACTORY_VERSION.zip \
     && cd /opt \ 
     && unzip /tmp/artifactory.zip \
     && mv /opt/artifactory-oss-${ARTIFACTORY_VERSION} artifactory \
